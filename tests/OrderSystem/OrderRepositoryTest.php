@@ -28,7 +28,6 @@ class OrderRepositoryTest extends TestCase
 
     public function testOrderNumberCantBeZeroAfterReconstitution()
     {
-        $this->markTestIncomplete("Order repository has not been implemented yet!");
         $theOrderNumber = 42;
         $this->fakeAnOrder($theOrderNumber);
 
@@ -39,6 +38,9 @@ class OrderRepositoryTest extends TestCase
 
     private function fakeAnOrder($theOrderNumber)
     {
+        $order = new Order(new Customer());
+        $this->repository->setFieldWhenReconstitutingFromPersistence($order, 'orderNumber', $theOrderNumber);
+        $this->repository->addOrder($order);
     }
 
 }
