@@ -35,12 +35,4 @@ class OrderRepository
 
         assert($numberOfOrdersBefore + 1 === count($this->orders));
     }
-
-    public static function setFieldWhenReconstitutingFromPersistence($instance, $fieldName, $newValue)
-    {
-        $object = new \ReflectionObject($instance);
-        $property = $object->getProperty($fieldName);
-        $property->setAccessible(true);
-        $property->setValue($instance, $newValue);
-    }
 }
