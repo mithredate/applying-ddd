@@ -10,5 +10,13 @@ namespace Mithredate\DDD\OrderSystem;
 
 class Customer
 {
+    private $customerNumber;
 
+    /**
+     * Customer constructor.
+     *
+     */
+    public function __construct()
+    {
+    }
 }

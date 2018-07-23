@@ -35,4 +35,17 @@ class OrderRepository
 
         assert($numberOfOrdersBefore + 1 === count($this->orders));
     }
+
+    public function getOrders($customer)
+    {
+        $orders = [];
+
+        foreach ($this->orders as $order) {
+            if($order->getCustomer() == $customer) {
+                $orders[] = $order;
+            }
+        }
+
+        return $orders;
+    }
 }

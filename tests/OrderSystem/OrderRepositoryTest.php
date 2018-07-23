@@ -46,11 +46,24 @@ class OrderRepositoryTest extends TestCase
 
     public function testCanFindOrdersViaCustomer()
     {
-        $customer = new Customer();
-
-        $this->markTestSkipped();
+        $customer = $this->fakeACustomer(7);
 
         $this->fakeAnOrder(42, $customer);
+        $this->fakeAnOrder(12, $this->fakeACustomer(1));
+        $this->fakeAnOrder(3, $customer);
+        $this->fakeAnOrder(21, $customer);
+        $this->fakeAnOrder(1, $this->fakeACustomer(2));
+
+        $this->assertEquals(3, count($this->repository->getOrders($customer)));
+    }
+
+    private function fakeACustomer($customerNumber)
+    {
+        $customer = new Customer();
+
+        RepositoryHelper::setFieldWhenReconstitutingFromPersistence($customer, 'customerNumber', $customerNumber);
+
+        return $customer;
     }
 
 }
