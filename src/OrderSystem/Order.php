@@ -10,5 +10,14 @@ namespace Mithredate\DDD\OrderSystem;
 
 class Order
 {
-    public function __construct($customer) {}
+    private $customer;
+
+    public function __construct($customer) {
+        $this->customer = $customer;
+    }
+
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
 }

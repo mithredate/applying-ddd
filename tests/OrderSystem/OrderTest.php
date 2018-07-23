@@ -18,4 +18,11 @@ class OrderTest extends TestCase
 
         $this->assertNotNull($order, "Order created from the factory can't be null!");
     }
+
+    public function testCanCreateOrderWithCustomer()
+    {
+        $order = new Order(new Customer());
+
+        $this->assertNotNull($order->getCustomer(), "Order should have a customer.");
+    }
 }
