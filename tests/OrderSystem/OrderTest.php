@@ -36,4 +36,11 @@ class OrderTest extends TestCase
         $this->assertTrue($order->getOrderDate() > $beforeCreation, "Order date should is invalid!");
         $this->assertTrue($order->getOrderDate() < new DateTime('now'), "Order date should is invalid!");
     }
+
+    public function testOrderNumberIsZeroAfterCreation()
+    {
+        $order = new Order(new Customer());
+
+        $this->assertEquals(0, $order->getOrderNumber(), "The order number should be zero after creation.");
+    }
 }
