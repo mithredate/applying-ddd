@@ -30,18 +30,27 @@ class OrderRepositoryTest extends TestCase
     public function testOrderNumberCantBeZeroAfterReconstitution()
     {
         $theOrderNumber = 42;
-        $this->fakeAnOrder($theOrderNumber);
+        $this->fakeAnOrder($theOrderNumber, new Customer());
 
         $order = $this->repository->getOrder($theOrderNumber);
 
         $this->assertNotEquals(0, $order->getOrderNumber());
     }
 
-    private function fakeAnOrder($theOrderNumber)
+    private function fakeAnOrder($theOrderNumber, $customer)
     {
-        $order = new Order(new Customer());
+        $order = new Order($customer);
         RepositoryHelper::setFieldWhenReconstitutingFromPersistence($order, 'orderNumber', $theOrderNumber);
         $this->repository->addOrder($order);
+    }
+
+    public function testCanFindOrdersViaCustomer()
+    {
+        $customer = new Customer();
+
+        $this->markTestSkipped();
+
+        $this->fakeAnOrder(42, $customer);
     }
 
 }
