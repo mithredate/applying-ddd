@@ -1,0 +1,28 @@
+{
+  "name": "mithredate/ddd",
+  "description": "Domain Driven Design Example",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mehrdad Hedayati",
+      "email": "mehrdad.hedayati@gmail.com"
+    }
+  ],
+  "require": {
+    "mockery/mockery": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Mithredate\\DDD\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Mithredate\\DDD\\": "tests"
+    }
+  }
+}
