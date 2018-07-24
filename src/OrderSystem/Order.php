@@ -15,13 +15,13 @@ class Order
     private $customer;
     private $orderDate;
     private $orderNumber;
-    private $totalAmount;
+    private $orderLines;
 
     public function __construct($customer) {
         $this->customer = $customer;
         $this->orderDate = new DateTime('now');
         $this->orderNumber = 0;
-        $this->totalAmount = 0;
+        $this->orderLines = [];
     }
 
     public function getCustomer()
@@ -41,6 +41,15 @@ class Order
 
     public function getTotalAmount()
     {
-        return $this->totalAmount;
+        $theSum = 0;
+        foreach ($this->orderLines as $orderLine) {
+            $theSum += $orderLine->getTotalAmount();
+        }
+        return $theSum;
+    }
+
+    public function addOrderLine($orderLine)
+    {
+        $this->orderLines[] = $orderLine;
     }
 }
