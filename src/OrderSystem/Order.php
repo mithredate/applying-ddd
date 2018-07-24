@@ -15,11 +15,13 @@ class Order
     private $customer;
     private $orderDate;
     private $orderNumber;
+    private $totalAmount;
 
     public function __construct($customer) {
         $this->customer = $customer;
         $this->orderDate = new DateTime('now');
         $this->orderNumber = 0;
+        $this->totalAmount = 0;
     }
 
     public function getCustomer()
@@ -35,5 +37,10 @@ class Order
     public function getOrderNumber()
     {
         return $this->orderNumber;
+    }
+
+    public function getTotalAmount()
+    {
+        return $this->totalAmount;
     }
 }

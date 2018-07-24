@@ -43,4 +43,11 @@ class OrderTest extends TestCase
 
         $this->assertEquals(0, $order->getOrderNumber(), "The order number should be zero after creation.");
     }
+
+    public function testEmptyOrderHasZeroForTotalAmount()
+    {
+        $order = new Order(new Customer());
+
+        $this->assertEquals(0, $order->getTotalAmount());
+    }
 }
