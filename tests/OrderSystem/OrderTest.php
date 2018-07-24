@@ -50,4 +50,16 @@ class OrderTest extends TestCase
 
         $this->assertEquals(0, $order->getTotalAmount());
     }
+
+//    public function testOrderWithLinesHasTotalAmount()
+//    {
+//        $order = new Order(new Customer());
+//
+//        $orderLine = new OrderLine(new Product("Chair", 52.00));
+//        $orderLine->setNumberOfUnits(2);
+//
+//        $order->addOrderLine($orderLine);
+//
+//        $this->assertEquals(104.00, $order->getTotalAmount());
+//    }
 }
