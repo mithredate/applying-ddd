@@ -8,44 +8,11 @@
 namespace Mithredate\DDD\OrderSystem;
 
 
-use ReflectionClass;
-
-class OrderRepository
+interface OrderRepository
 {
-    private $orders;
+    public function getOrder($orderNumber);
 
-    /**
-     * OrderRepository constructor.
-     */
-    public function __construct()
-    {
-        $this->orders = [];
-    }
+    public function getOrders($customer);
 
-    public function getOrder($orderNumber)
-    {
-        return $this->orders[$orderNumber];
-    }
-
-    public function addOrder($order)
-    {
-        $numberOfOrdersBefore = count($this->orders);
-
-        $this->orders[$order->getOrderNumber()] = $order;
-
-        assert($numberOfOrdersBefore + 1 === count($this->orders));
-    }
-
-    public function getOrders($customer)
-    {
-        $orders = [];
-
-        foreach ($this->orders as $order) {
-            if($order->getCustomer() == $customer) {
-                $orders[] = $order;
-            }
-        }
-
-        return $orders;
-    }
+    public function addOrder($order);
 }

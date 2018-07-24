@@ -17,7 +17,7 @@ class OrderRepositoryTest extends TestCase
 
     protected function setUp()
     {
-        $this->repository = new OrderRepository();
+        $this->repository = new OrderRepositoryFake();
     }
 
     public function testCanAddOrder()
