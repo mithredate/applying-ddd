@@ -30,4 +30,9 @@ class OrderLine
         return $this->price;
     }
 
+    public function getTotalAmount()
+    {
+        return $this->price * $this->numberOfUnits;
+    }
+
 }
