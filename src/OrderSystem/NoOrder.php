@@ -1,6 +1,6 @@
 <?php
 /**
- * Filename: Order.
+ * Filename: NoOrder.
  * User: Mithredate
  * Date: Jul, 2018
  */
@@ -8,7 +8,8 @@
 namespace Mithredate\DDD\OrderSystem;
 
 
-interface Order
+
+class NoOrder implements Order
 {
 
 }

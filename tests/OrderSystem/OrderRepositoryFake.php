@@ -22,7 +22,7 @@ class OrderRepositoryFake implements OrderRepository
 
     public function getOrder($orderNumber)
     {
-        return $this->orders[$orderNumber];
+        return isset($this->orders[$orderNumber]) ? $this->orders[$orderNumber] : new NoOrder();
     }
 
     public function addOrder($order)

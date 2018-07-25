@@ -22,7 +22,7 @@ class OrderRepositoryTest extends TestCase
 
     public function testCanAddOrder()
     {
-        $this->repository->addOrder(new Order(new Customer()));
+        $this->repository->addOrder(new OrderImp(new Customer()));
         $this->assertTrue(true);
     }
 
@@ -39,7 +39,7 @@ class OrderRepositoryTest extends TestCase
 
     private function fakeAnOrder($theOrderNumber, $customer)
     {
-        $order = new Order($customer);
+        $order = new OrderImp($customer);
         RepositoryHelper::setFieldWhenReconstitutingFromPersistence($order, 'orderNumber', $theOrderNumber);
         $this->repository->addOrder($order);
     }
@@ -64,6 +64,26 @@ class OrderRepositoryTest extends TestCase
         RepositoryHelper::setFieldWhenReconstitutingFromPersistence($customer, 'customerNumber', $customerNumber);
 
         return $customer;
+    }
+
+    public function testReturnNoOrderInsteadOfNull()
+    {
+        $nullOrder = $this->repository->getOrder(11);
+
+        $this->assertInstanceOf(Order::class, $nullOrder);
+    }
+
+    public function testTowRepositoryInstancesKnowTheSameOrder()
+    {
+        $this->markTestSkipped();
+        $repository1 = new OrderRepositoryFake();
+        $order = $this->fakeAnOrder(37, $this->fakeACustomer(2));
+        $repository1->addOrder($order);
+
+        $repository2 = new OrderRepositoryFake();
+        $retrievedOrder = $repository2->getOrder(37);
+
+        $this->assertNotNull($retrievedOrder->getOrderNumber());
     }
 
 }
