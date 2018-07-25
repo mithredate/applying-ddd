@@ -12,21 +12,21 @@ use DateTime;
 
 class Order
 {
-    private $customer;
+    private $customerSnapshot;
     private $orderDate;
     private $orderNumber;
     private $orderLines;
 
     public function __construct($customer) {
-        $this->customer = $customer;
+        $this->customerSnapshot = $customer->takeSnapshot();
         $this->orderDate = new DateTime('now');
         $this->orderNumber = 0;
         $this->orderLines = [];
     }
 
-    public function getCustomer()
+    public function getCustomerSnapshot()
     {
-        return $this->customer;
+        return $this->customerSnapshot;
     }
 
     public function getOrderDate()
@@ -51,5 +51,15 @@ class Order
     public function addOrderLine($orderLine)
     {
         $this->orderLines[] = $orderLine;
+    }
+
+    public function getCustomerName()
+    {
+        return $this->customerSnapshot->getCustomerName();
+    }
+
+    public function getCustomerNumber()
+    {
+        return $this->customerSnapshot->getCustomerNumber();
     }
 }

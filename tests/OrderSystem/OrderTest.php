@@ -24,7 +24,7 @@ class OrderTest extends TestCase
     {
         $order = new Order(new Customer());
 
-        $this->assertNotNull($order->getCustomer(), "Order should have a customer.");
+        $this->assertNotNull($order->getCustomerSnapshot(), "Order should have a customer.");
     }
 
     public function testOrderDateIsCurrentAfterCreation()
@@ -65,5 +65,17 @@ class OrderTest extends TestCase
         $order->addOrderLine($secondOrderLine);
 
         $this->assertEquals(104.00 + 345.00, $order->getTotalAmount());
+    }
+
+    public function testOrderHasSnapshotOfRealCustomer()
+    {
+        $customer = new Customer();
+        $customer->setName("Volvo");
+
+        $order = new Order($customer);
+
+        $customer->setName("Saab");
+
+        $this->assertEquals("Volvo", $order->getCustomerName());
     }
 }

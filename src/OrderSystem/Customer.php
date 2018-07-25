@@ -11,6 +11,7 @@ namespace Mithredate\DDD\OrderSystem;
 class Customer
 {
     private $customerNumber;
+    private $name;
 
     /**
      * Customer constructor.
@@ -18,5 +19,34 @@ class Customer
      */
     public function __construct()
     {
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function takeSnapshot()
+    {
+        return new CustomerSnapshot(
+            $this->name,
+            $this->customerNumber
+        );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCustomerNumber()
+    {
+        return $this->customerNumber;
     }
 }

@@ -39,7 +39,7 @@ class OrderRepositoryFake implements OrderRepository
         $orders = [];
 
         foreach ($this->orders as $order) {
-            if($order->getCustomer() == $customer) {
+            if($order->getCustomerNumber() == $customer->getCustomerNumber()) {
                 $orders[] = $order;
             }
         }
