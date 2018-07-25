@@ -8,15 +8,9 @@
 namespace Mithredate\DDD\OrderSystem;
 
 
-class Workspace
+interface Workspace
 {
-    public function add($type, $value)
-    {
+    public function add($type, $value);
 
-    }
-
-    public function persistAll()
-    {
-
-    }
+//    public function persistAll();
 }

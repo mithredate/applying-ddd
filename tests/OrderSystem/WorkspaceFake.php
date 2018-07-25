@@ -8,7 +8,7 @@
 namespace Mithredate\DDD\OrderSystem;
 
 
-class WorkspaceFake extends Workspace {
+class WorkspaceFake implements Workspace {
 
     private $count = 0;
 
