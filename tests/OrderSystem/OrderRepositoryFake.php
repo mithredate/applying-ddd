@@ -11,13 +11,17 @@ namespace Mithredate\DDD\OrderSystem;
 class OrderRepositoryFake implements OrderRepository
 {
     private $orders;
+    private $ws;
 
     /**
      * OrderRepository constructor.
+     *
+     * @param $workspace
      */
-    public function __construct()
+    public function __construct($workspace)
     {
         $this->orders = [];
+        $this->ws = $workspace;
     }
 
     public function getOrder($orderNumber)
@@ -30,6 +34,8 @@ class OrderRepositoryFake implements OrderRepository
         $numberOfOrdersBefore = count($this->orders);
 
         $this->orders[$order->getOrderNumber()] = $order;
+
+        $this->ws->add(Order::class, $order);
 
         assert($numberOfOrdersBefore + 1 === count($this->orders));
     }

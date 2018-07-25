@@ -14,10 +14,12 @@ class OrderRepositoryTest extends TestCase
 {
 
     private $repository;
+    private $ws;
 
     protected function setUp()
     {
-        $this->repository = new OrderRepositoryFake();
+        $this->ws = new WorkspaceFake();
+        $this->repository = new OrderRepositoryFake($this->ws);
     }
 
     public function testCanAddOrder()
@@ -80,12 +82,24 @@ class OrderRepositoryTest extends TestCase
         $this->assertNull($noOrder->getOrderNumber());
     }
 
+    public function testOrderIsAddedToWorkspace()
+    {
+        $countBefore = $this->ws->getCount();
+
+        $this->fakeAnOrder(11, $this->fakeACustomer(22));
+
+        $this->assertEquals($countBefore + 1, $this->ws->getCount());
+
+    }
+
     public function testTowRepositoryInstancesKnowTheSameOrder()
     {
-        $this->markTestSkipped();
+        self::markTestSkipped();
         $repository1 = new OrderRepositoryFake();
-        $order = $this->fakeAnOrder(37, $this->fakeACustomer(2));
+        $order = new OrderImp($this->fakeACustomer(2));
         $repository1->addOrder($order);
+
+        $this->ws->persistAll();
 
         $repository2 = new OrderRepositoryFake();
         $retrievedOrder = $repository2->getOrder(37);
