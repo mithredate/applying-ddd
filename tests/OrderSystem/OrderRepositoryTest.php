@@ -94,7 +94,6 @@ class OrderRepositoryTest extends TestCase
 
     public function testOrderIsFetchedFromWorkspace()
     {
-        self::markTestSkipped();
         $order = new OrderImp(new Customer());
         $wsMock = \Mockery::mock(Workspace::class);
         $wsMock->shouldReceive("getById")

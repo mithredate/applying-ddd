@@ -26,7 +26,7 @@ class OrderRepositoryFake implements OrderRepository
 
     public function getOrder($orderNumber)
     {
-        return isset($this->orders[$orderNumber]) ? $this->orders[$orderNumber] : new NoOrder();
+        return $this->ws->getById(Order::class, $orderNumber);
     }
 
     public function addOrder($order)

@@ -31,10 +31,11 @@ class WorkspaceFake implements Workspace {
         return $this->count;
     }
 
-//    public function getById($type, $id)
-//    {
-//        $entity = isset($this->dirty[$type][$])
-//    }
+    public function getById($type, $id)
+    {
+        return isset($this->persistent[$type][$id]) ? $this->persistent[$type][$id] :
+            isset($this->dirty[$type][$id]) ? $this->dirty[$type][$id] : new NoOrder();
+    }
 
 //    public function persistAll()
 //    {
