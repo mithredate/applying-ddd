@@ -73,6 +73,13 @@ class OrderRepositoryTest extends TestCase
         $this->assertInstanceOf(Order::class, $nullOrder);
     }
 
+    public function testNoOrderHasNullOrderNumber()
+    {
+        $noOrder = $this->repository->getOrder(13);
+
+        $this->assertNull($noOrder->getOrderNumber());
+    }
+
     public function testTowRepositoryInstancesKnowTheSameOrder()
     {
         $this->markTestSkipped();

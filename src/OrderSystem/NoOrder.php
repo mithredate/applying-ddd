@@ -12,4 +12,8 @@ namespace Mithredate\DDD\OrderSystem;
 class NoOrder implements Order
 {
 
+    public function getOrderNumber()
+    {
+        return null;
+    }
 }
