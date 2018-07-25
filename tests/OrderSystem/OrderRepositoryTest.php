@@ -92,16 +92,31 @@ class OrderRepositoryTest extends TestCase
 
     }
 
+    public function testOrderIsFetchedFromWorkspace()
+    {
+        self::markTestSkipped();
+        $order = new OrderImp(new Customer());
+        $wsMock = \Mockery::mock(Workspace::class);
+        $wsMock->shouldReceive("getById")
+               ->once()
+               ->withArgs([Order::class, 10])
+                ->andReturn($order);
+
+        $repository = new OrderRepositoryFake($wsMock);
+        $fetchedOrder = $repository->getOrder(10);
+        $this->assertEquals($order, $fetchedOrder);
+    }
+
     public function testTowRepositoryInstancesKnowTheSameOrder()
     {
         self::markTestSkipped();
-        $repository1 = new OrderRepositoryFake();
+        $repository1 = new OrderRepositoryFake($this->ws);
         $order = new OrderImp($this->fakeACustomer(2));
         $repository1->addOrder($order);
 
         $this->ws->persistAll();
 
-        $repository2 = new OrderRepositoryFake();
+        $repository2 = new OrderRepositoryFake($this->ws);
         $retrievedOrder = $repository2->getOrder(37);
 
         $this->assertNotNull($retrievedOrder->getOrderNumber());
