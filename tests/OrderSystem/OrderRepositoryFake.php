@@ -35,7 +35,7 @@ class OrderRepositoryFake implements OrderRepository
 
         $this->orders[$order->getOrderNumber()] = $order;
 
-        $this->ws->markForPersistence(Order::class, $order, $order->getOrderNumber());
+        $this->ws->markForPersistence($order);
 
         assert($numberOfOrdersBefore + 1 === count($this->orders));
     }

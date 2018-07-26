@@ -10,16 +10,22 @@ namespace Mithredate\DDD\OrderSystem;
 
 class WorkspaceFake implements Workspace {
 
+
+    private $idGetter;
     private $count = 0;
     private $markedForPersistence = [];
     private static $persistent = [];
+    private $type;
 
-    public function markForPersistence($type, $entity, $id)
+    public function __construct($type, $idGetter)
     {
-        if (!isset($this->markedForPersistence[$type])) {
-            $this->markedForPersistence[$type] = [];
-        }
-        $this->markedForPersistence[$type][$id] = $entity;
+        $this->idGetter = $idGetter;
+        $this->type = $type;
+    }
+
+    public function markForPersistence($entity)
+    {
+        $this->markedForPersistence[$entity->{$this->idGetter}()] = $entity;
         $this->count++;
     }
 
@@ -33,8 +39,8 @@ class WorkspaceFake implements Workspace {
 
     public function getById($type, $id)
     {
-        return isset($this->markedForPersistence[$type][$id]) ? $this->markedForPersistence[$type][$id] :
-            (isset(self::$persistent[$type][$id]) ? self::$persistent[$type][$id] : new NoOrder());
+        return isset($this->markedForPersistence[$id]) ? $this->markedForPersistence[$id] :
+            (isset(self::$persistent[$this->type][$id]) ? self::$persistent[$this->type][$id] : new NoOrder());
     }
 }
 //    public function persistAll()

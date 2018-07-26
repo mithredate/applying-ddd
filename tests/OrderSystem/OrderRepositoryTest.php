@@ -18,7 +18,7 @@ class OrderRepositoryTest extends TestCase
 
     protected function setUp()
     {
-        $this->ws = new WorkspaceFake();
+        $this->ws = new WorkspaceFake(Order::class, "getOrderNumber");
         $this->repository = new OrderRepositoryFake($this->ws);
     }
 
