@@ -10,7 +10,11 @@ namespace Mithredate\DDD\OrderSystem;
 
 interface Workspace
 {
-    public function add($type, $entity, $id);
+    public function markForPersistence($type, $entity, $id);
+
     public function getById($type, $id);
+
+//    public function getByParent($type, $parent, $parentId);
+
 //    public function persistAll();
 }
