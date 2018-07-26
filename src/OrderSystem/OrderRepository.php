@@ -14,5 +14,5 @@ interface OrderRepository
 
     public function getOrders($customer);
 
-    public function addOrder($order);
+    public function add($order);
 }

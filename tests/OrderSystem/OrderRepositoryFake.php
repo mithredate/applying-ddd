@@ -31,7 +31,7 @@ class OrderRepositoryFake implements OrderRepository
         return $order;
     }
 
-    public function addOrder($order)
+    public function add($order)
     {
         $numberOfOrdersBefore = count($this->orders);
 
