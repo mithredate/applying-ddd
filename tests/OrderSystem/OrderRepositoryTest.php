@@ -9,6 +9,7 @@ namespace Mithredate\DDD\OrderSystem;
 
 
 use Mithredate\DDD\Customer\Customer;
+use Mithredate\DDD\Misc\RepositoryHelper;
 use Mithredate\DDD\Persistence\WorkspaceFake;
 use PHPUnit\Framework\TestCase;
 
