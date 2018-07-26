@@ -9,6 +9,7 @@ namespace Mithredate\DDD\OrderSystem;
 
 
 use DateTime;
+use Mithredate\DDD\Customer\Customer;
 use PHPUnit\Framework\TestCase;
 
 class OrderTest extends TestCase
