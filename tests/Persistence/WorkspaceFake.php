@@ -8,8 +8,6 @@
 namespace Mithredate\DDD\Persistence;
 
 
-use Mithredate\DDD\OrderSystem\NoOrder;
-
 class WorkspaceFake implements Workspace {
 
 
@@ -42,7 +40,7 @@ class WorkspaceFake implements Workspace {
     public function getById($type, $id)
     {
         return isset($this->markedForPersistence[$id]) ? $this->markedForPersistence[$id] :
-            (isset(self::$persistent[$this->type][$id]) ? self::$persistent[$this->type][$id] : new NoOrder());
+            (isset(self::$persistent[$this->type][$id]) ? self::$persistent[$this->type][$id] : null);
     }
 }
 //    public function persistAll()
