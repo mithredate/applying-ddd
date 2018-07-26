@@ -8,6 +8,7 @@
 namespace Mithredate\DDD\OrderSystem;
 
 
+use Mithredate\DDD\Persistence\WorkspaceFake;
 use PHPUnit\Framework\TestCase;
 
 class OrderRepositoryTest extends TestCase

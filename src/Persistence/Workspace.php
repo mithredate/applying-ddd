@@ -5,7 +5,7 @@
  * Date: Jul, 2018
  */
 
-namespace Mithredate\DDD\OrderSystem;
+namespace Mithredate\DDD\Persistence;
 
 
 interface Workspace

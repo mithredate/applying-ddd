@@ -5,8 +5,10 @@
  * Date: Jul, 2018
  */
 
-namespace Mithredate\DDD\OrderSystem;
+namespace Mithredate\DDD\Persistence;
 
+
+use Mithredate\DDD\OrderSystem\NoOrder;
 
 class WorkspaceFake implements Workspace {
 
