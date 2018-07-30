@@ -87,9 +87,8 @@ class OrderTest extends TestCase
         $this->assertEquals(OrderImp::NEW, $order->getStatus());
     }
 
-    public function testOrderTransitionsToOrdered()
+    public function testValidOrderCanBeOrdered()
     {
-        self::markTestSkipped();
         $order = new OrderImp(new Customer());
         $orderLine = new OrderLine(new Product("Chair", 52.00));
         $orderLine->setNumberOfUnits(12);

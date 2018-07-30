@@ -69,7 +69,7 @@ class OrderImp implements Order
 
     public function orderNow()
     {
-
+        $this->status = self::ORDERED;
     }
 
     public function getStatus()
