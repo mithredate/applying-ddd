@@ -79,4 +79,38 @@ class OrderTest extends TestCase
 
         $this->assertEquals("Volvo", $order->getCustomerName());
     }
+
+    public function testNewOrderHasCorrectStatus()
+    {
+        $order = new OrderImp(new Customer());
+
+        $this->assertEquals(OrderImp::NEW, $order->getStatus());
+    }
+
+    public function testOrderTransitionsToOrdered()
+    {
+        self::markTestSkipped();
+        $order = new OrderImp(new Customer());
+        $orderLine = new OrderLine(new Product("Chair", 52.00));
+        $orderLine->setNumberOfUnits(12);
+        $order->addOrderLine($orderLine);
+        $order->orderNow();
+
+        $this->assertEquals(OrderImp::ORDERED, $order->getStatus());
+    }
+
+    public function testCantGoToOrderedStateWithExceededMaxAmount()
+    {
+        $this->markTestSkipped();
+        $order = new OrderImp(new Customer());
+
+        $orderLine = new OrderLine(new Product("Chair", 1));
+        $orderLine->setNumberOfUnits(2000000);
+
+        $order->addOrderLine($orderLine);
+
+        $this->expectException(ApplicationException::class);
+
+        $order->orderNow();
+    }
 }

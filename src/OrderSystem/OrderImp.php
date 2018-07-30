@@ -12,16 +12,20 @@ use DateTime;
 
 class OrderImp implements Order
 {
+    const NEW = 0;
+    const ORDERED = 1;
     private $customerSnapshot;
     private $orderDate;
     private $orderNumber;
     private $orderLines;
+    private $status;
 
     public function __construct($customer) {
         $this->customerSnapshot = $customer->takeSnapshot();
         $this->orderDate = new DateTime('now');
         $this->orderNumber = 0;
         $this->orderLines = [];
+        $this->status = self::NEW;
     }
 
     public function getCustomerSnapshot()
@@ -61,5 +65,15 @@ class OrderImp implements Order
     public function getCustomerNumber()
     {
         return $this->customerSnapshot->getCustomerNumber();
+    }
+
+    public function orderNow()
+    {
+
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
     }
 }
