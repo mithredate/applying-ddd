@@ -89,7 +89,9 @@ class OrderTest extends TestCase
 
     public function testValidOrderCanBeOrdered()
     {
-        $order = new OrderImp(new Customer());
+        $customer = new Customer();
+        $customer->setMaxAmountOfDebt(1000);
+        $order = new OrderImp($customer);
         $orderLine = new OrderLine(new Product("Chair", 52.00));
         $orderLine->setNumberOfUnits(12);
         $order->addOrderLine($orderLine);
@@ -104,6 +106,23 @@ class OrderTest extends TestCase
 
         $orderLine = new OrderLine(new Product("Chair", 1));
         $orderLine->setNumberOfUnits(2000000);
+
+        $order->addOrderLine($orderLine);
+
+        $this->expectException(ApplicationException::class);
+
+        $order->orderNow();
+    }
+
+    public function testCanHaveCustomerDependentMaxDebt()
+    {
+        $customer = new Customer();
+        $customer->setMaxAmountOfDebt(10);
+
+        $order = new OrderImp($customer);
+
+        $orderLine = new OrderLine(new Product("Chair", 11));
+        $orderLine->setNumberOfUnits(1);
 
         $order->addOrderLine($orderLine);
 

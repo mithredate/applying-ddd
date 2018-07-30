@@ -12,13 +12,16 @@ class CustomerSnapshot
 {
     private $customerName;
     private $customerNumber;
+    private $maxAmountOfDebt;
 
     public function __construct(
         $customerName,
-        $customerNumber
+        $customerNumber,
+        $maxAmountOfDebt
     ) {
         $this->customerName = $customerName;
         $this->customerNumber = $customerNumber;
+        $this->maxAmountOfDebt = $maxAmountOfDebt;
     }
 
     /**
@@ -35,6 +38,14 @@ class CustomerSnapshot
     public function getCustomerNumber()
     {
         return $this->customerNumber;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMaxAmountOfDebt()
+    {
+        return $this->maxAmountOfDebt;
     }
 
 }

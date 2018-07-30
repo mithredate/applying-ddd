@@ -70,6 +70,9 @@ class OrderImp implements Order
     public function orderNow()
     {
         $this->guardOrderAmountLimit();
+        if ($this->getTotalAmount() > $this->getCustomerMaxAmountOfDebt()) {
+            throw new ApplicationException("Customer reached its maximum debt amount!");
+        }
         $this->status = self::ORDERED;
     }
 
@@ -83,5 +86,10 @@ class OrderImp implements Order
         if ($this->getTotalAmount() > 1000000) {
             throw new ApplicationException("Order amount can't exceed the limit!");
         }
+    }
+
+    public function getCustomerMaxAmountOfDebt()
+    {
+        return $this->customerSnapshot->getMaxAmountOfDebt();
     }
 }

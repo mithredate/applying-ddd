@@ -12,6 +12,7 @@ class Customer
 {
     private $customerNumber;
     private $name;
+    private $maxAmountOfDebt;
 
     /**
      * Customer constructor.
@@ -38,7 +39,8 @@ class Customer
     {
         return new CustomerSnapshot(
             $this->name,
-            $this->customerNumber
+            $this->customerNumber,
+            $this->maxAmountOfDebt
         );
     }
 
@@ -48,5 +50,10 @@ class Customer
     public function getCustomerNumber()
     {
         return $this->customerNumber;
+    }
+
+    public function setMaxAmountOfDebt($maxAmountOfDebt)
+    {
+        $this->maxAmountOfDebt = $maxAmountOfDebt;
     }
 }
