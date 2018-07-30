@@ -69,11 +69,19 @@ class OrderImp implements Order
 
     public function orderNow()
     {
+        $this->guardOrderAmountLimit();
         $this->status = self::ORDERED;
     }
 
     public function getStatus()
     {
         return $this->status;
+    }
+
+    private function guardOrderAmountLimit(): void
+    {
+        if ($this->getTotalAmount() > 1000000) {
+            throw new ApplicationException("Order amount can't exceed the limit!");
+        }
     }
 }

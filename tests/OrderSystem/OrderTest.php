@@ -100,7 +100,6 @@ class OrderTest extends TestCase
 
     public function testCantGoToOrderedStateWithExceededMaxAmount()
     {
-        $this->markTestSkipped();
         $order = new OrderImp(new Customer());
 
         $orderLine = new OrderLine(new Product("Chair", 1));
