@@ -17,6 +17,7 @@ class OrderImp extends Order
     private $orderNumber;
     private $orderLines;
     private $status;
+    private $note;
 
     public function __construct($customer) {
         $this->customerSnapshot = $customer->takeSnapshot();
@@ -89,5 +90,15 @@ class OrderImp extends Order
     public function getCustomerMaxAmountOfDebt()
     {
         return $this->customerSnapshot->getMaxAmountOfDebt();
+    }
+
+    public function setNote($note)
+    {
+        $this->note = $note;
+    }
+
+    public function isValidRegardingPersistence()
+    {
+        return strlen($this->note) <= 30;
     }
 }

@@ -130,4 +130,22 @@ class OrderTest extends TestCase
 
         $order->orderNow();
     }
+
+    public function testCanMakeStateTransitionSafely()
+    {
+        self::markTestSkipped();
+        $order = new OrderImp(new Customer());
+
+        $this->assertEquals(0, count($order->getBrokenRulesIfAccepted()));
+
+        $order->accept();
+    }
+
+    public function testCantExceedStringLengthWhenPersisting()
+    {
+        $order = new OrderImp(new Customer());
+        $order->setNote("This is a sample note which is too long to be stored in a database through persistence mechanism!");
+
+        $this->assertFalse($order->isValidRegardingPersistence());
+    }
 }
