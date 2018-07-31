@@ -155,15 +155,19 @@ class OrderTest extends TestCase
 
         $order->setNote("This is a short note");
         $this->assertTrue($order->isValidRegardingPersistence());
+        $this->assertEquals(0, count($order->getBrokenRulesRegardingPersistence()));
 
         $tomorrow = new DateTime("tomorrow");
         $order->setOrderDate($tomorrow);
         $this->assertFalse($order->isValidRegardingPersistence());
+        $this->assertEquals(1, count($order->getBrokenRulesRegardingPersistence()));
 
         $order->setOrderDate(new DateTime('now'));
         $this->assertTrue($order->isValidRegardingPersistence());
+        $this->assertEquals(0, count($order->getBrokenRulesRegardingPersistence()));
 
         $order->setNote("This is going to make the order invalid regarding persistence!");
         $this->assertFalse($order->isValidRegardingPersistence());
+        $this->assertEquals(1, count($order->getBrokenRulesRegardingPersistence()));
     }
 }

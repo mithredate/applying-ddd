@@ -99,11 +99,26 @@ class OrderImp extends Order
 
     public function isValidRegardingPersistence()
     {
-        return strlen($this->note) <= 30 && $this->orderDate < new DateTime('now');
+        return count($this->getBrokenRulesRegardingPersistence()) == 0;
     }
 
     public function setOrderDate($date)
     {
         $this->orderDate = $date;
+    }
+
+    public function getBrokenRulesRegardingPersistence()
+    {
+        $brokenRulesRegardingPersistence = [];
+        $noteIsTooLong = strlen($this->note) > 30;
+        if ($noteIsTooLong) {
+            $brokenRulesRegardingPersistence[] = "Note is too long.";
+        }
+
+        $invalidOrderDate = $this->orderDate > new DateTime('now');
+        if ($invalidOrderDate) {
+            $brokenRulesRegardingPersistence[] = "Order date is in the future.";
+        }
+        return $brokenRulesRegardingPersistence;
     }
 }
