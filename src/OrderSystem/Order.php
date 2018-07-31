@@ -12,7 +12,8 @@ namespace Mithredate\DDD\OrderSystem;
 abstract class Order
 {
     const NEW = 0;
-    const ORDERED = 1;
+    const ACCEPTED = 1;
+    const ORDERED = 2;
     const INVALID = -1;
 
     abstract public function getOrderNumber();
@@ -28,4 +29,6 @@ abstract class Order
     abstract public function getOrderDate();
 
     abstract public function addOrderLine($orderLine);
+
+    abstract public function accept();
 }

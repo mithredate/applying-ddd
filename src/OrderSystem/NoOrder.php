@@ -47,4 +47,9 @@ class NoOrder extends Order
     {
         throw new ApplicationException("Can't add order line to an invalid order!");
     }
+
+    public function accept()
+    {
+        throw new \BadMethodCallException("Can't accept a non-existing order.");
+    }
 }

@@ -180,5 +180,10 @@ class OrderTest extends TestCase
         $customer->accept();
         $this->assertTrue($order->isOKToAccept());
 
+        $order->setOrderDate(new DateTime("tomorrow"));
+        $this->assertFalse($order->isOKToAccept());
+
+        $this->expectException(ApplicationException::class);
+        $order->accept();
     }
 }

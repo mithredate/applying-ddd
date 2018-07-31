@@ -129,6 +129,16 @@ class OrderImp extends Order
         if (! $this->customer->isAccepted()) {
             return false;
         }
-        return true;
+
+        return $this->isValidRegardingPersistence();
+    }
+
+    public function accept()
+    {
+        if (!$this->isOKToAccept()) {
+            throw new ApplicationException("Can't accept an invalid order.");
+        }
+
+        $this->status = Order::ACCEPTED;
     }
 }
