@@ -10,10 +10,8 @@ namespace Mithredate\DDD\OrderSystem;
 
 use DateTime;
 
-class OrderImp implements Order
+class OrderImp extends Order
 {
-    const NEW = 0;
-    const ORDERED = 1;
     private $customerSnapshot;
     private $orderDate;
     private $orderNumber;
