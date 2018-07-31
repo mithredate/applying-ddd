@@ -10,9 +10,12 @@ namespace Mithredate\DDD\Customer;
 
 class Customer
 {
+    const NEW = 0;
+    const ACCEPTED = 1;
     private $customerNumber;
     private $name;
     private $maxAmountOfDebt;
+    private $status;
 
     /**
      * Customer constructor.
@@ -20,6 +23,8 @@ class Customer
      */
     public function __construct()
     {
+        $this->maxAmountOfDebt = 0;
+        $this->status = Customer::NEW;
     }
 
     public function setName($name)
@@ -55,5 +60,15 @@ class Customer
     public function setMaxAmountOfDebt($maxAmountOfDebt)
     {
         $this->maxAmountOfDebt = $maxAmountOfDebt;
+    }
+
+    public function accept()
+    {
+        $this->status = self::ACCEPTED;
+    }
+
+    public function isAccepted()
+    {
+        return $this->status === self::ACCEPTED;
     }
 }

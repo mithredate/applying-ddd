@@ -170,4 +170,15 @@ class OrderTest extends TestCase
         $this->assertFalse($order->isValidRegardingPersistence());
         $this->assertEquals(1, count($order->getBrokenRulesRegardingPersistence()));
     }
+
+    public function testTryingTheAcceptTransitionWithTheRulesAPI()
+    {
+        $customer = new Customer();
+        $order = new OrderImp($customer);
+
+        $this->assertFalse($order->isOKToAccept());
+        $customer->accept();
+        $this->assertTrue($order->isOKToAccept());
+
+    }
 }

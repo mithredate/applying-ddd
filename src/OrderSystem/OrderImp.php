@@ -18,6 +18,7 @@ class OrderImp extends Order
     private $orderLines;
     private $status;
     private $note;
+    private $customer;
 
     public function __construct($customer) {
         $this->customerSnapshot = $customer->takeSnapshot();
@@ -25,6 +26,7 @@ class OrderImp extends Order
         $this->orderNumber = 0;
         $this->orderLines = [];
         $this->status = self::NEW;
+        $this->customer = $customer;
     }
 
     public function getCustomerSnapshot()
@@ -120,5 +122,13 @@ class OrderImp extends Order
             $brokenRulesRegardingPersistence[] = "Order date is in the future.";
         }
         return $brokenRulesRegardingPersistence;
+    }
+
+    public function isOKToAccept()
+    {
+        if (! $this->customer->isAccepted()) {
+            return false;
+        }
+        return true;
     }
 }
