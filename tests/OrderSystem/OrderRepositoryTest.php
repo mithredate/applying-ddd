@@ -27,7 +27,7 @@ class OrderRepositoryTest extends TestCase
 
     public function testCanAddOrder()
     {
-        $this->repository->add(new OrderImp(new Customer()));
+        $this->repository->add(new RealOrder(new Customer()));
         $this->assertTrue(true);
     }
 
@@ -44,7 +44,7 @@ class OrderRepositoryTest extends TestCase
 
     private function fakeAnOrder($theOrderNumber, $customer)
     {
-        $order = new OrderImp($customer);
+        $order = new RealOrder($customer);
         RepositoryHelper::setFieldWhenReconstitutingFromPersistence($order, 'orderNumber', $theOrderNumber);
         $this->repository->add($order);
     }
@@ -97,7 +97,7 @@ class OrderRepositoryTest extends TestCase
 
     public function testOrderIsFetchedFromWorkspace()
     {
-        $order = new OrderImp(new Customer());
+        $order = new RealOrder(new Customer());
         $wsMock = \Mockery::mock(Workspace::class);
         $wsMock->shouldReceive("getById")
                ->once()
@@ -113,7 +113,7 @@ class OrderRepositoryTest extends TestCase
     {
         self::markTestSkipped();
         $repository1 = new OrderRepositoryFake($this->ws);
-        $order = new OrderImp($this->fakeACustomer(2));
+        $order = new RealOrder($this->fakeACustomer(2));
         $repository1->add($order);
 
         $this->ws->persistAll();

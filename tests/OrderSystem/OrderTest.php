@@ -16,14 +16,14 @@ class OrderTest extends TestCase
 {
     public function testCanCreateOrder()
     {
-        $order = new OrderImp(new Customer());
+        $order = new RealOrder(new Customer());
 
         $this->assertNotNull($order, "Order created from the factory can't be null!");
     }
 
     public function testCanCreateOrderWithCustomer()
     {
-        $order = new OrderImp(new Customer());
+        $order = new RealOrder(new Customer());
 
         $this->assertNotNull($order->getCustomerSnapshot(), "Order should have a customer.");
     }
@@ -32,7 +32,7 @@ class OrderTest extends TestCase
     {
         $beforeCreation = new DateTime('now');
 
-        $order = new OrderImp(new Customer());
+        $order = new RealOrder(new Customer());
 
         $this->assertTrue($order->getOrderDate() > $beforeCreation, "Order date should is invalid!");
         $this->assertTrue($order->getOrderDate() < new DateTime('now'), "Order date should is invalid!");
@@ -40,21 +40,21 @@ class OrderTest extends TestCase
 
     public function testOrderNumberIsZeroAfterCreation()
     {
-        $order = new OrderImp(new Customer());
+        $order = new RealOrder(new Customer());
 
         $this->assertEquals(0, $order->getOrderNumber(), "The order number should be zero after creation.");
     }
 
     public function testEmptyOrderHasZeroForTotalAmount()
     {
-        $order = new OrderImp(new Customer());
+        $order = new RealOrder(new Customer());
 
         $this->assertEquals(0, $order->getTotalAmount());
     }
 
     public function testOrderWithLinesHasTotalAmount()
     {
-        $order = new OrderImp(new Customer());
+        $order = new RealOrder(new Customer());
 
         $orderLine = new OrderLine(new Product("Chair", 52.00));
         $orderLine->setNumberOfUnits(2);
@@ -73,7 +73,7 @@ class OrderTest extends TestCase
         $customer = new Customer();
         $customer->setName("Volvo");
 
-        $order = new OrderImp($customer);
+        $order = new RealOrder($customer);
 
         $customer->setName("Saab");
 
@@ -82,27 +82,27 @@ class OrderTest extends TestCase
 
     public function testNewOrderHasCorrectStatus()
     {
-        $order = new OrderImp(new Customer());
+        $order = new RealOrder(new Customer());
 
-        $this->assertEquals(OrderImp::NEW, $order->getStatus());
+        $this->assertEquals(RealOrder::NEW, $order->getStatus());
     }
 
     public function testValidOrderCanBeOrdered()
     {
         $customer = new Customer();
         $customer->setMaxAmountOfDebt(1000);
-        $order = new OrderImp($customer);
+        $order = new RealOrder($customer);
         $orderLine = new OrderLine(new Product("Chair", 52.00));
         $orderLine->setNumberOfUnits(12);
         $order->addOrderLine($orderLine);
         $order->orderNow();
 
-        $this->assertEquals(OrderImp::ORDERED, $order->getStatus());
+        $this->assertEquals(RealOrder::ORDERED, $order->getStatus());
     }
 
     public function testCantGoToOrderedStateWithExceededMaxAmount()
     {
-        $order = new OrderImp(new Customer());
+        $order = new RealOrder(new Customer());
 
         $orderLine = new OrderLine(new Product("Chair", 1));
         $orderLine->setNumberOfUnits(2000000);
@@ -119,7 +119,7 @@ class OrderTest extends TestCase
         $customer = new Customer();
         $customer->setMaxAmountOfDebt(10);
 
-        $order = new OrderImp($customer);
+        $order = new RealOrder($customer);
 
         $orderLine = new OrderLine(new Product("Chair", 11));
         $orderLine->setNumberOfUnits(1);
@@ -134,7 +134,7 @@ class OrderTest extends TestCase
     public function testCanMakeStateTransitionSafely()
     {
         self::markTestSkipped();
-        $order = new OrderImp(new Customer());
+        $order = new RealOrder(new Customer());
 
         $this->assertEquals(0, count($order->getBrokenRulesIfAccepted()));
 
@@ -143,7 +143,7 @@ class OrderTest extends TestCase
 
     public function testCantExceedStringLengthWhenPersisting()
     {
-        $order = new OrderImp(new Customer());
+        $order = new RealOrder(new Customer());
         $order->setNote("This is a sample note which is too long to be stored in a database through persistence mechanism!");
 
         $this->assertFalse($order->isValidRegardingPersistence());
@@ -151,7 +151,7 @@ class OrderTest extends TestCase
 
     public function testDifferentIdeasWithTheRulesAPI()
     {
-        $order = new OrderImp(new Customer());
+        $order = new RealOrder(new Customer());
 
         $order->setNote("This is a short note");
         $this->assertTrue($order->isValidRegardingPersistence());
@@ -174,7 +174,7 @@ class OrderTest extends TestCase
     public function testTryingTheAcceptTransitionWithTheRulesAPI()
     {
         $customer = new Customer();
-        $order = new OrderImp($customer);
+        $order = new RealOrder($customer);
 
         $this->assertFalse($order->isOKToAccept());
         $customer->accept();

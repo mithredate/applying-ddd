@@ -10,7 +10,7 @@ namespace Mithredate\DDD\OrderSystem;
 
 use DateTime;
 
-class OrderImp extends Order
+class RealOrder extends Order
 {
     private $customerSnapshot;
     private $orderDate;
