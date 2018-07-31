@@ -148,4 +148,22 @@ class OrderTest extends TestCase
 
         $this->assertFalse($order->isValidRegardingPersistence());
     }
+
+    public function testDifferentIdeasWithTheRulesAPI()
+    {
+        $order = new OrderImp(new Customer());
+
+        $order->setNote("This is a short note");
+        $this->assertTrue($order->isValidRegardingPersistence());
+
+        $tomorrow = new DateTime("tomorrow");
+        $order->setOrderDate($tomorrow);
+        $this->assertFalse($order->isValidRegardingPersistence());
+
+        $order->setOrderDate(new DateTime('now'));
+        $this->assertTrue($order->isValidRegardingPersistence());
+
+        $order->setNote("This is going to make the order invalid regarding persistence!");
+        $this->assertFalse($order->isValidRegardingPersistence());
+    }
 }

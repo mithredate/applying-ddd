@@ -99,6 +99,11 @@ class OrderImp extends Order
 
     public function isValidRegardingPersistence()
     {
-        return strlen($this->note) <= 30;
+        return strlen($this->note) <= 30 && $this->orderDate < new DateTime('now');
+    }
+
+    public function setOrderDate($date)
+    {
+        $this->orderDate = $date;
     }
 }
