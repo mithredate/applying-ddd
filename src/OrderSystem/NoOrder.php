@@ -45,5 +45,6 @@ class NoOrder extends Order
 
     public function addOrderLine($orderLine)
     {
+        throw new ApplicationException("Can't add order line to an invalid order!");
     }
 }

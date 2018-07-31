@@ -134,4 +134,16 @@ class OrderRepositoryTest extends TestCase
         $order->orderNow();
     }
 
+    public function testNoOrderCantHaveOrderLines()
+    {
+        $order = $this->repository->getOrder(1);
+
+        $orderLine = new OrderLine(new Product("Chair", 11));
+        $orderLine->setNumberOfUnits(1);
+
+        $this->expectException(ApplicationException::class);
+
+        $order->addOrderLine($orderLine);
+    }
+
 }
