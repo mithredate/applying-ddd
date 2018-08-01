@@ -139,9 +139,7 @@ class RealOrder implements Order
         $brokenRules = [];
         foreach ($this->persistenceRelatedRules as $persistenceRelatedRule) {
             if (!$persistenceRelatedRule->isValid()) {
-                foreach ($persistenceRelatedRule->getParticipatingLogicalFields() as $participatingLogicalField) {
-                    $brokenRules[] = $participatingLogicalField;
-                }
+                $brokenRules[] = $persistenceRelatedRule;
             }
         }
         return $brokenRules;
