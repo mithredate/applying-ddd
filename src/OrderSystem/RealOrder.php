@@ -9,6 +9,7 @@ namespace Mithredate\DDD\OrderSystem;
 
 
 use DateTime;
+use Mithredate\DDD\Rules\BrokenRuleCollector;
 use Mithredate\DDD\Rules\RuleBase;
 
 class RealOrder implements Order
@@ -137,11 +138,7 @@ class RealOrder implements Order
     public function getBrokenRulesRegardingPersistence()
     {
         $brokenRules = [];
-        foreach ($this->persistenceRelatedRules as $persistenceRelatedRule) {
-            if (!$persistenceRelatedRule->isValid()) {
-                $brokenRules[] = $persistenceRelatedRule;
-            }
-        }
+        BrokenRuleCollector::collect($brokenRules, $this->persistenceRelatedRules);
         return $brokenRules;
     }
 
