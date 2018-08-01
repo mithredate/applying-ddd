@@ -8,6 +8,7 @@
 namespace Mithredate\DDD\Misc;
 
 
+use Mithredate\DDD\Customer\Customer;
 use Mithredate\DDD\OrderSystem\RealOrder;
 
 class RepositoryHelper
@@ -25,5 +26,14 @@ class RepositoryHelper
         $order = new RealOrder($customer);
         RepositoryHelper::setFieldWhenReconstitutingFromPersistence($order, 'orderNumber', $theOrderNumber);
         return $order;
+    }
+
+    public function fakeACustomer($customerNumber)
+    {
+        $customer = new Customer();
+
+        RepositoryHelper::setFieldWhenReconstitutingFromPersistence($customer, 'customerNumber', $customerNumber);
+
+        return $customer;
     }
 }

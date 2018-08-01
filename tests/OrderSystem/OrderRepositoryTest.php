@@ -65,11 +65,7 @@ class OrderRepositoryTest extends TestCase
 
     private function fakeACustomer($customerNumber)
     {
-        $customer = new Customer();
-
-        RepositoryHelper::setFieldWhenReconstitutingFromPersistence($customer, 'customerNumber', $customerNumber);
-
-        return $customer;
+        return $this->repositoryHelper->fakeACustomer($customerNumber);
     }
 
     public function testReturnNoOrderInsteadOfNull()
