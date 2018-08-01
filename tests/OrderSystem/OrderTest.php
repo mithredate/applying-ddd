@@ -84,7 +84,7 @@ class OrderTest extends TestCase
     {
         $order = new RealOrder(new Customer());
 
-        $this->assertEquals(RealOrder::NEW, $order->getStatus());
+        $this->assertEquals(OrderStatus::NEW, $order->getStatus());
     }
 
     public function testValidOrderCanBeOrdered()

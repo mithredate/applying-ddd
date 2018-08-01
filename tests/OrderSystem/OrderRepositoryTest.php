@@ -127,7 +127,7 @@ class OrderRepositoryTest extends TestCase
     public function testNoOrderHasInvalidStatus()
     {
         $order = $this->repository->getOrder(1);
-        $this->assertEquals(Order::INVALID, $order->getStatus());
+        $this->assertEquals(OrderStatus::INVALID, $order->getStatus());
     }
 
     public function testNoOrderCantChangeStatusToOrdered()
