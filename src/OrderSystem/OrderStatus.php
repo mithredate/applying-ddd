@@ -10,10 +10,10 @@ namespace Mithredate\DDD\OrderSystem;
 
 class OrderStatus
 {
-    const NEW = 0;
-    const ACCEPTED = 1;
-    const PERSISTED = 2;
-    const REJECTED = 3;
-    const ORDERED = 4;
     const INVALID = -1;
+    const NEW = 0;
+    const REJECTED = 1;
+    const ACCEPTED = 2;
+    const PERSISTED = 3;
+    const ORDERED = 4;
 }

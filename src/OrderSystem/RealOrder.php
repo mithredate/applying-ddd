@@ -22,6 +22,7 @@ class RealOrder implements Order
     private $note;
     private $customer;
     private $persistenceRelatedRules;
+    private $acceptedSpecificRules;
 
     public function __construct($customer) {
         $this->customerSnapshot = $customer->takeSnapshot();
@@ -31,6 +32,7 @@ class RealOrder implements Order
         $this->status = OrderStatus::NEW;
         $this->customer = $customer;
         $this->setupPersistenceRelatedRules();
+        $this->setupAcceptedSpecificRules();
     }
 
     private function setupPersistenceRelatedRules()
@@ -53,6 +55,11 @@ class RealOrder implements Order
             "note",
             $this
         );
+    }
+
+    private function setupAcceptedSpecificRules()
+    {
+        $this->acceptedSpecificRules = [];
     }
 
     public function getCustomerSnapshot()
@@ -139,9 +146,16 @@ class RealOrder implements Order
     {
         $brokenRules = [];
         BrokenRuleCollector::collect($brokenRules, $this->persistenceRelatedRules);
+        if ($this->isInThisStateOrBeyond(OrderStatus::ACCEPTED)) {
+            BrokenRuleCollector::collect($brokenRules, $this->acceptedSpecificRules);
+        }
         return $brokenRules;
     }
 
+    private function isInThisStateOrBeyond(int $status)
+    {
+        return $this->status > $status;
+    }
 
     public function isOKToAccept()
     {
