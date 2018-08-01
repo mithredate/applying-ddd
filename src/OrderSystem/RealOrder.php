@@ -11,6 +11,8 @@ namespace Mithredate\DDD\OrderSystem;
 use DateTime;
 use Mithredate\DDD\Misc\ApplicationException;
 use Mithredate\DDD\Rules\BrokenRuleCollector;
+use Mithredate\DDD\Rules\DateIsInRangeRule;
+use Mithredate\DDD\Rules\MaxStringLengthRule;
 use Mithredate\DDD\Rules\RuleBase;
 
 class RealOrder implements Order

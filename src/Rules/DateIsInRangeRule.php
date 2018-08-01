@@ -5,10 +5,8 @@
  * Date: Aug, 2018
  */
 
-namespace Mithredate\DDD\OrderSystem;
+namespace Mithredate\DDD\Rules;
 
-
-use Mithredate\DDD\Rules\RuleBase;
 
 class DateIsInRangeRule extends RuleBase
 {
