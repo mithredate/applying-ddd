@@ -19,11 +19,13 @@ class OrderRepositoryTest extends TestCase
 
     private $repository;
     private $ws;
+    private $repositoryHelper;
 
     protected function setUp()
     {
         $this->ws = new WorkspaceFake(Order::class, "getOrderNumber");
         $this->repository = new OrderRepositoryFake($this->ws);
+        $this->repositoryHelper = new RepositoryHelper();
     }
 
     public function testCanAddOrder()
@@ -45,9 +47,7 @@ class OrderRepositoryTest extends TestCase
 
     private function fakeAnOrder($theOrderNumber, $customer)
     {
-        $order = new RealOrder($customer);
-        RepositoryHelper::setFieldWhenReconstitutingFromPersistence($order, 'orderNumber', $theOrderNumber);
-        $this->repository->add($order);
+        $this->repository->add($this->repositoryHelper->fakeAnOrder($theOrderNumber, $customer));
     }
 
     public function testCanFindOrdersViaCustomer()
