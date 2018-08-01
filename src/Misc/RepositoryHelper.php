@@ -13,18 +13,10 @@ use Mithredate\DDD\OrderSystem\RealOrder;
 
 class RepositoryHelper
 {
-    public static function setFieldWhenReconstitutingFromPersistence($instance, $fieldName, $newValue)
-    {
-        $object = new \ReflectionObject($instance);
-        $property = $object->getProperty($fieldName);
-        $property->setAccessible(true);
-        $property->setValue($instance, $newValue);
-    }
-
     public function fakeAnOrder($theOrderNumber, $customer)
     {
         $order = new RealOrder($customer);
-        RepositoryHelper::setFieldWhenReconstitutingFromPersistence($order, 'orderNumber', $theOrderNumber);
+        $this->setFieldWhenReconstitutingFromPersistence($order, 'orderNumber', $theOrderNumber);
         return $order;
     }
 
@@ -32,8 +24,16 @@ class RepositoryHelper
     {
         $customer = new Customer();
 
-        RepositoryHelper::setFieldWhenReconstitutingFromPersistence($customer, 'customerNumber', $customerNumber);
+        $this->setFieldWhenReconstitutingFromPersistence($customer, 'customerNumber', $customerNumber);
 
         return $customer;
+    }
+
+    private function setFieldWhenReconstitutingFromPersistence($instance, $fieldName, $newValue)
+    {
+        $object = new \ReflectionObject($instance);
+        $property = $object->getProperty($fieldName);
+        $property->setAccessible(true);
+        $property->setValue($instance, $newValue);
     }
 }
