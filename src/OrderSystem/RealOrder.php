@@ -11,7 +11,7 @@ namespace Mithredate\DDD\OrderSystem;
 use DateTime;
 use Mithredate\DDD\Rules\RuleBase;
 
-class RealOrder extends Order
+class RealOrder implements Order
 {
     private $customerSnapshot;
     private $orderDate;
@@ -27,7 +27,7 @@ class RealOrder extends Order
         $this->orderDate = new DateTime('now');
         $this->orderNumber = 0;
         $this->orderLines = [];
-        $this->status = self::NEW;
+        $this->status = OrderStatus::NEW;
         $this->customer = $customer;
         $this->setupPersistenceRelatedRules();
     }
@@ -99,7 +99,7 @@ class RealOrder extends Order
         if ($this->getTotalAmount() > $this->getCustomerMaxAmountOfDebt()) {
             throw new ApplicationException("Customer reached its maximum debt amount!");
         }
-        $this->status = self::ORDERED;
+        $this->status = OrderStatus::ORDERED;
     }
 
     public function getStatus()
@@ -154,7 +154,7 @@ class RealOrder extends Order
             throw new ApplicationException("Can't accept an invalid order.");
         }
 
-        $this->status = Order::ACCEPTED;
+        $this->status = OrderStatus::ACCEPTED;
     }
 
     /**

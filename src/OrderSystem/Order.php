@@ -9,26 +9,22 @@ namespace Mithredate\DDD\OrderSystem;
 
 
 
-abstract class Order
+interface Order
 {
-    const NEW = 0;
-    const ACCEPTED = 1;
-    const ORDERED = 2;
-    const INVALID = -1;
 
-    abstract public function getOrderNumber();
+    public function getOrderNumber();
 
-    abstract public function orderNow();
+    public function orderNow();
 
-    abstract public function getCustomerSnapshot();
+    public function getCustomerSnapshot();
 
-    abstract public function getCustomerMaxAmountOfDebt();
+    public function getCustomerMaxAmountOfDebt();
 
-    abstract public function getStatus();
+    public function getStatus();
 
-    abstract public function getOrderDate();
+    public function getOrderDate();
 
-    abstract public function addOrderLine($orderLine);
+    public function addOrderLine($orderLine);
 
-    abstract public function accept();
+    public function accept();
 }

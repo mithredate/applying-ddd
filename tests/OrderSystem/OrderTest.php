@@ -97,7 +97,7 @@ class OrderTest extends TestCase
         $order->addOrderLine($orderLine);
         $order->orderNow();
 
-        $this->assertEquals(RealOrder::ORDERED, $order->getStatus());
+        $this->assertEquals(OrderStatus::ORDERED, $order->getStatus());
     }
 
     public function testCantGoToOrderedStateWithExceededMaxAmount()

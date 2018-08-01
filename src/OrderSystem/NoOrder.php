@@ -10,7 +10,7 @@ namespace Mithredate\DDD\OrderSystem;
 
 use Mithredate\DDD\Customer\CustomerSnapshot;
 
-class NoOrder extends Order
+class NoOrder implements Order
 {
 
     public function getOrderNumber()
@@ -35,7 +35,7 @@ class NoOrder extends Order
 
     public function getStatus()
     {
-        return Order::INVALID;
+        return OrderStatus::INVALID;
     }
 
     public function getOrderDate()
