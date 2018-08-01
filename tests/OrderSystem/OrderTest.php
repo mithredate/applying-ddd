@@ -162,7 +162,7 @@ class OrderTest extends TestCase
         $this->assertFalse($order->isValidRegardingPersistence());
         $this->assertEquals(1, count($order->getBrokenRulesRegardingPersistence()));
 
-        $order->setOrderDate(new DateTime('now'));
+        $order->setOrderDate(new DateTime('now -10 seconds'));
         $this->assertTrue($order->isValidRegardingPersistence());
         $this->assertEquals(0, count($order->getBrokenRulesRegardingPersistence()));
 

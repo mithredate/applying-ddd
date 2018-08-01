@@ -9,6 +9,7 @@ namespace Mithredate\DDD\OrderSystem;
 
 
 use DateTime;
+use Mithredate\DDD\Rules\RuleBase;
 
 class RealOrder extends Order
 {
@@ -19,6 +20,7 @@ class RealOrder extends Order
     private $status;
     private $note;
     private $customer;
+    private $persistenceRelatedRules;
 
     public function __construct($customer) {
         $this->customerSnapshot = $customer->takeSnapshot();
@@ -27,6 +29,29 @@ class RealOrder extends Order
         $this->orderLines = [];
         $this->status = self::NEW;
         $this->customer = $customer;
+        $this->setupPersistenceRelatedRules();
+    }
+
+    private function setupPersistenceRelatedRules()
+    {
+        $this->persistenceRelatedRules = [];
+
+        $minDate = new DateTime('last year');
+        $maxDate = new DateTime('now');
+        $this->persistenceRelatedRules[] = new DateIsInRangeRule(
+            $minDate,
+            $maxDate,
+            array("Order date is not valid."),
+            "orderDate",
+            $this
+        );
+
+        $this->persistenceRelatedRules[] = new MaxStringLengthRule(
+            30,
+            array("Note can't be longer than 30 characters."),
+            "note",
+            $this
+        );
     }
 
     public function getCustomerSnapshot()
@@ -111,17 +136,7 @@ class RealOrder extends Order
 
     public function getBrokenRulesRegardingPersistence()
     {
-        $brokenRulesRegardingPersistence = [];
-        $noteIsTooLong = strlen($this->note) > 30;
-        if ($noteIsTooLong) {
-            $brokenRulesRegardingPersistence[] = "Note is too long.";
-        }
-
-        $invalidOrderDate = $this->orderDate > new DateTime('now');
-        if ($invalidOrderDate) {
-            $brokenRulesRegardingPersistence[] = "Order date is in the future.";
-        }
-        return $brokenRulesRegardingPersistence;
+        return RuleBase::collectBrokenRules($this->persistenceRelatedRules);
     }
 
     public function isOKToAccept()
@@ -140,5 +155,13 @@ class RealOrder extends Order
         }
 
         $this->status = Order::ACCEPTED;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPersistenceRelatedRules()
+    {
+        return $this->persistenceRelatedRules;
     }
 }
