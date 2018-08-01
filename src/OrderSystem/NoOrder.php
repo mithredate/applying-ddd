@@ -52,4 +52,19 @@ class NoOrder implements Order
     {
         throw new \BadMethodCallException("Can't accept a non-existing order.");
     }
+
+    public function isValidRegardingPersistence()
+    {
+        return false;
+    }
+
+    public function getBrokenRulesRegardingPersistence()
+    {
+        return null;
+    }
+
+    public function getPersistenceRelatedRules()
+    {
+        return null;
+    }
 }

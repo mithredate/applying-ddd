@@ -174,4 +174,9 @@ class RealOrder implements Order
 
         $this->status = OrderStatus::ACCEPTED;
     }
+
+    public function getPersistenceRelatedRules()
+    {
+        return $this->persistenceRelatedRules;
+    }
 }

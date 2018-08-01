@@ -9,7 +9,9 @@ namespace Mithredate\DDD\OrderSystem;
 
 
 
-interface Order
+use Mithredate\DDD\Persistence\ValidatableRegardingPersistence;
+
+interface Order extends ValidatableRegardingPersistence
 {
 
     public function getOrderNumber();
