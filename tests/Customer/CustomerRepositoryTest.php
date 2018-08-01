@@ -14,17 +14,27 @@ use PHPUnit\Framework\TestCase;
 
 class CustomerRepositoryTest extends TestCase
 {
+    private $ws;
+    private $repository;
+    private $repositoryHelper;
+
+    protected function setUp()
+    {
+        $this->ws = new WorkspaceFake(Customer::class, "getCustomerNumber");
+        $this->repository = new CustomerRepository($this->ws);
+        $this->repositoryHelper = new RepositoryHelper();
+    }
+
     public function testCanAddCustomer()
     {
-        self::markTestSkipped();
-        $customer = new Customer();
-        RepositoryHelper::setFieldWhenReconstitutingFromPersistence($customer, "customerNumber", 1);
-
-        $ws = new WorkspaceFake(Customer::class, "getCustomerNumber");
-
-        $customerRepository = new CustomerRepository($ws);
-        $customerRepository->add($customer);
-        $retrievedCustomer = $customerRepository->getById(Customer::class, 1);
+        $this->fakeACustomer(1);
+        $retrievedCustomer = $this->repository->getById(1);
         $this->assertEquals(1, $retrievedCustomer->getCustomerNumber());
+    }
+
+
+    private function fakeACustomer($customerNumber)
+    {
+        $this->repository->add($this->repositoryHelper->fakeACustomer($customerNumber));
     }
 }

@@ -8,7 +8,9 @@
 namespace Mithredate\DDD\Customer;
 
 
-class CustomerRepository
+use Mithredate\DDD\Misc\Repository;
+
+class CustomerRepository implements Repository
 {
     private $ws;
 

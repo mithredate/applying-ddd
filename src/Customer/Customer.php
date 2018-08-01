@@ -49,9 +49,7 @@ class Customer
         );
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getCustomerNumber()
     {
         return $this->customerNumber;
