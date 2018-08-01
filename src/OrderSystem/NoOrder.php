@@ -9,6 +9,7 @@ namespace Mithredate\DDD\OrderSystem;
 
 
 use Mithredate\DDD\Customer\CustomerSnapshot;
+use Mithredate\DDD\Misc\ApplicationException;
 
 class NoOrder implements Order
 {

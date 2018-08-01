@@ -9,6 +9,7 @@ namespace Mithredate\DDD\OrderSystem;
 
 
 use DateTime;
+use Mithredate\DDD\Misc\ApplicationException;
 use Mithredate\DDD\Rules\BrokenRuleCollector;
 use Mithredate\DDD\Rules\RuleBase;
 
