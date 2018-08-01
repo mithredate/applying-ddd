@@ -136,8 +136,17 @@ class RealOrder implements Order
 
     public function getBrokenRulesRegardingPersistence()
     {
-        return RuleBase::collectBrokenRules($this->persistenceRelatedRules);
+        $brokenRules = [];
+        foreach ($this->persistenceRelatedRules as $persistenceRelatedRule) {
+            if (!$persistenceRelatedRule->isValid()) {
+                foreach ($persistenceRelatedRule->getParticipatingLogicalFields() as $participatingLogicalField) {
+                    $brokenRules[] = $participatingLogicalField;
+                }
+            }
+        }
+        return $brokenRules;
     }
+
 
     public function isOKToAccept()
     {

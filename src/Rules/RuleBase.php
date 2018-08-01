@@ -34,20 +34,6 @@ abstract class RuleBase implements Rule
         $this->reflectionProperty->setAccessible(true);
     }
 
-
-    public static function collectBrokenRules($persistenceRelatedRules)
-    {
-        $brokenRules = [];
-        foreach ($persistenceRelatedRules as $persistenceRelatedRule) {
-            if (!$persistenceRelatedRule->isValid()) {
-                foreach ($persistenceRelatedRule->getParticipatingLogicalFields() as $participatingLogicalField) {
-                    $brokenRules[] = $participatingLogicalField;
-                }
-            }
-        }
-        return $brokenRules;
-    }
-
     public function getValue()
     {
         return $this->reflectionProperty->getValue($this->holder);
