@@ -111,12 +111,12 @@ class RealOrder implements Order
         if ($this->getTotalAmount() > $this->getCustomerMaxAmountOfDebt()) {
             throw new ApplicationException("Customer reached its maximum debt amount!");
         }
-        $this->statusNumber = OrderStatus::ORDERED;
+        $this->setStatus(OrderStatus::ORDERED);
     }
 
     public function getStatus()
     {
-        return $this->statusNumber;
+        return $this->status->getStatusNumber();
     }
 
     private function guardOrderAmountLimit(): void
@@ -172,7 +172,7 @@ class RealOrder implements Order
 
     private function isInThisStateOrBeyond(int $status)
     {
-        return $this->statusNumber > $status;
+        return $this->status->getStatusNumber() > $status;
     }
 
     public function accept()
