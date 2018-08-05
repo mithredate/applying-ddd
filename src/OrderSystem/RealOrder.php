@@ -135,14 +135,23 @@ class RealOrder implements Order
         $this->note = $note;
     }
 
-    public function isValidRegardingPersistence()
-    {
-        return count($this->getBrokenRulesRegardingPersistence()) == 0;
-    }
-
     public function setOrderDate($date)
     {
         $this->orderDate = $date;
+    }
+
+    public function isOKToAccept()
+    {
+        if (! $this->customer->isAccepted()) {
+            return false;
+        }
+
+        return $this->isValidRegardingPersistence();
+    }
+
+    public function isValidRegardingPersistence()
+    {
+        return count($this->getBrokenRulesRegardingPersistence()) == 0;
     }
 
     public function getBrokenRulesRegardingPersistence()
@@ -158,15 +167,6 @@ class RealOrder implements Order
     private function isInThisStateOrBeyond(int $status)
     {
         return $this->status > $status;
-    }
-
-    public function isOKToAccept()
-    {
-        if (! $this->customer->isAccepted()) {
-            return false;
-        }
-
-        return $this->isValidRegardingPersistence();
     }
 
     public function accept()

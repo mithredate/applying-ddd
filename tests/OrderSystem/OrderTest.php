@@ -134,10 +134,11 @@ class OrderTest extends TestCase
 
     public function testCanMakeStateTransitionSafely()
     {
-        self::markTestSkipped();
-        $order = new RealOrder(new Customer());
+        $customer = new Customer();
+        $customer->accept();
+        $order = new RealOrder($customer);
 
-        $this->assertEquals(0, count($order->getBrokenRulesIfAccepted()));
+        $this->assertEquals(0, count($order->getBrokenRulesRegardingPersistence()));
 
         $order->accept();
     }
