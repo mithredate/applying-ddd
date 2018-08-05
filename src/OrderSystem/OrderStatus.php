@@ -27,4 +27,9 @@ class OrderStatus
     {
         return $this->statusNumber;
     }
+
+    public function isInThisStateOrBeyond($statusNumber)
+    {
+        return $this->getStatusNumber() > $statusNumber;
+    }
 }

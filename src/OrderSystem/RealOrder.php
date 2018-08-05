@@ -172,7 +172,7 @@ class RealOrder implements Order
 
     private function isInThisStateOrBeyond(int $status)
     {
-        return $this->status->getStatusNumber() > $status;
+        return $this->status->isInThisStateOrBeyond($status);
     }
 
     public function accept()
