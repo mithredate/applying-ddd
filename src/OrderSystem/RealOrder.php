@@ -20,7 +20,6 @@ class RealOrder implements Order
     private $orderDate;
     private $orderNumber;
     private $orderLines;
-    private $statusNumber;
     private $note;
     private $customer;
     private $persistenceRelatedRules;
@@ -32,11 +31,10 @@ class RealOrder implements Order
         $this->orderDate = new DateTime('now');
         $this->orderNumber = 0;
         $this->orderLines = [];
-        $this->statusNumber = OrderStatus::NEW;
+        $this->setStatus(OrderStatus::NEW);
         $this->customer = $customer;
         $this->setupPersistenceRelatedRules();
         $this->setupAcceptedSpecificRules();
-        $this->status = new OrderStatus($this->statusNumber);
     }
 
     private function setupPersistenceRelatedRules()
@@ -186,7 +184,6 @@ class RealOrder implements Order
 
     private function setStatus(int $statusNumber)
     {
-        $this->statusNumber = $statusNumber;
         $this->status = new OrderStatus($statusNumber);
     }
 }
