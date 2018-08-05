@@ -12,6 +12,8 @@ use Mithredate\DDD\Customer\Customer;
 use Mithredate\DDD\Infrastructure\Query;
 use Mithredate\DDD\Misc\ApplicationException;
 use Mithredate\DDD\Misc\RepositoryHelper;
+use Mithredate\DDD\Persistence\MyValidatorImplementation;
+use Mithredate\DDD\Persistence\ValidatorThatDoesNothing;
 use Mithredate\DDD\Persistence\Workspace;
 use Mithredate\DDD\Persistence\WorkspaceFake;
 use PHPUnit\Framework\TestCase;
@@ -25,7 +27,7 @@ class OrderRepositoryTest extends TestCase
 
     protected function setUp()
     {
-        $this->ws = new WorkspaceFake(Order::class, "getOrderNumber");
+        $this->ws = new WorkspaceFake(Order::class, "getOrderNumber", new ValidatorThatDoesNothing());
         $this->repository = new OrderRepository($this->ws);
         $this->repositoryHelper = new RepositoryHelper();
     }
@@ -113,14 +115,14 @@ class OrderRepositoryTest extends TestCase
 
     public function testTowRepositoryInstancesKnowTheSameOrder()
     {
-        $workspace = new WorkspaceFake(Order::class, "getOrderNumber");
+        $workspace = new WorkspaceFake(Order::class, "getOrderNumber", new ValidatorThatDoesNothing());
         $repository1 = new OrderRepository($workspace);
         $order = $this->repositoryHelper->fakeAnOrder(37, new Customer());
         $repository1->add($order);
 
         $workspace->persistAll();
 
-        $repository2 = new OrderRepository(new WorkspaceFake(Order::class, "getOrderNumber"));
+        $repository2 = new OrderRepository(new WorkspaceFake(Order::class, "getOrderNumber", new ValidatorThatDoesNothing()));
         $retrievedOrder = $repository2->getOrder(37);
 
         $this->assertNotNull($retrievedOrder->getOrderNumber());
@@ -151,6 +153,20 @@ class OrderRepositoryTest extends TestCase
         $this->expectException(ApplicationException::class);
 
         $order->addOrderLine($orderLine);
+    }
+
+    public function testPersistAllShouldFailIfOrderIsNotPersistable()
+    {
+        $workspace = new WorkspaceFake(Order::class, 'getOrderNumber', new MyValidatorImplementation());
+        $repository = new OrderRepository($workspace);
+        $order = $this->repositoryHelper->fakeAnOrder(22, new Customer());
+        $order->setOrderDate(new \DateTime('tomorrow'));
+        $repository->add($order);
+
+        $this->expectException(ApplicationException::class);
+
+        $workspace->persistAll();
+
     }
 
 }

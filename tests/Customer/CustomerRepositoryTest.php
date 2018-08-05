@@ -9,6 +9,7 @@ namespace Mithredate\DDD\Customer;
 
 
 use Mithredate\DDD\Misc\RepositoryHelper;
+use Mithredate\DDD\Persistence\ValidatorThatDoesNothing;
 use Mithredate\DDD\Persistence\WorkspaceFake;
 use PHPUnit\Framework\TestCase;
 
@@ -20,7 +21,7 @@ class CustomerRepositoryTest extends TestCase
 
     protected function setUp()
     {
-        $this->ws = new WorkspaceFake(Customer::class, "getCustomerNumber");
+        $this->ws = new WorkspaceFake(Customer::class, "getCustomerNumber", new ValidatorThatDoesNothing());
         $this->repository = new CustomerRepository($this->ws);
         $this->repositoryHelper = new RepositoryHelper();
     }

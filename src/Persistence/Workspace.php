@@ -17,4 +17,6 @@ interface Workspace
     public function getByQuery($query);
 
     public function persistAll();
+
+    public function getValidator();
 }

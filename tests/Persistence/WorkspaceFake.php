@@ -8,6 +8,8 @@
 namespace Mithredate\DDD\Persistence;
 
 
+use Mithredate\DDD\Misc\ApplicationException;
+
 class WorkspaceFake implements Workspace {
 
 
@@ -15,14 +17,22 @@ class WorkspaceFake implements Workspace {
     private $markedForPersistence = [];
     private static $persistent = [];
     private $type;
+    private $validator;
 
-    public function __construct($type, $idGetter)
+    /**
+     * WorkspaceFake constructor.
+     * @param $type
+     * @param $idGetter
+     * @param $validator
+     */
+    public function __construct($type, $idGetter, $validator)
     {
         $this->idGetter = $idGetter;
         $this->type = $type;
         if (!isset(self::$persistent[$this->type])) {
             self::$persistent[$this->type] = [];
         }
+        $this->validator = $validator;
     }
 
     public function markForPersistence($entity)
@@ -62,9 +72,28 @@ class WorkspaceFake implements Workspace {
     public function persistAll()
     {
         foreach ($this->markedForPersistence as $id => $entity) {
+            $this->guardInvalidRecordPersistence($entity);
             self::$persistent[$this->type][$id] = $entity;
         }
         $this->markedForPersistence = [];
     }
+
+    private function guardInvalidRecordPersistence($entity)
+    {
+        if (
+            $this->getValidator()->isValidatable($entity) &&
+            ! $this->getValidator()->isValid($entity)
+        ) {
+            $brokenRules = $this->getValidator()->genBrokenRules($entity);
+            $numberOfBrokenRules = count($brokenRules);
+            throw new ApplicationException("Can't persist the entity. {$numberOfBrokenRules} rules failed!");
+        }
+    }
+
+    public function getValidator()
+    {
+        return $this->validator;
+    }
+
 }
 
