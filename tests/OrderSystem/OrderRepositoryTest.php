@@ -9,6 +9,7 @@ namespace Mithredate\DDD\OrderSystem;
 
 
 use Mithredate\DDD\Customer\Customer;
+use Mithredate\DDD\Infrastructure\Query;
 use Mithredate\DDD\Misc\ApplicationException;
 use Mithredate\DDD\Misc\RepositoryHelper;
 use Mithredate\DDD\Persistence\Workspace;
@@ -86,11 +87,13 @@ class OrderRepositoryTest extends TestCase
 
     public function testOrderIsAddedToWorkspace()
     {
-        $countBefore = $this->ws->getCount();
+        $query = new Query(Order::class);
+        $query->addCriteria('CustomerSnapshot.CustomerNumber', 22);
+        $countBefore = count($this->ws->getByQuery($query));
 
         $this->fakeAnOrder(11, $this->fakeACustomer(22));
 
-        $this->assertEquals($countBefore + 1, $this->ws->getCount());
+        $this->assertEquals($countBefore + 1, count($this->ws->getByQuery($query)));
 
     }
 

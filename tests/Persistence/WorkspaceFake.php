@@ -12,7 +12,6 @@ class WorkspaceFake implements Workspace {
 
 
     private $idGetter;
-    private $count = 0;
     private $markedForPersistence = [];
     private static $persistent = [];
     private $type;
@@ -29,15 +28,6 @@ class WorkspaceFake implements Workspace {
     public function markForPersistence($entity)
     {
         $this->markedForPersistence[$entity->{$this->idGetter}()] = $entity;
-        $this->count++;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCount()
-    {
-        return $this->count;
     }
 
     public function getById($type, $id)
