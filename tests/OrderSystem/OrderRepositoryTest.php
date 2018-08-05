@@ -113,13 +113,14 @@ class OrderRepositoryTest extends TestCase
 
     public function testTowRepositoryInstancesKnowTheSameOrder()
     {
-        $repository1 = new OrderRepository($this->ws);
+        $workspace = new WorkspaceFake(Order::class, "getOrderNumber");
+        $repository1 = new OrderRepository($workspace);
         $order = $this->repositoryHelper->fakeAnOrder(37, new Customer());
         $repository1->add($order);
 
-        $this->ws->persistAll();
+        $workspace->persistAll();
 
-        $repository2 = new OrderRepository($this->ws);
+        $repository2 = new OrderRepository(new WorkspaceFake(Order::class, "getOrderNumber"));
         $retrievedOrder = $repository2->getOrder(37);
 
         $this->assertNotNull($retrievedOrder->getOrderNumber());
