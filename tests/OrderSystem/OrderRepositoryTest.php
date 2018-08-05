@@ -11,6 +11,7 @@ namespace Mithredate\DDD\OrderSystem;
 use Mithredate\DDD\Customer\Customer;
 use Mithredate\DDD\Misc\ApplicationException;
 use Mithredate\DDD\Misc\RepositoryHelper;
+use Mithredate\DDD\Persistence\Workspace;
 use Mithredate\DDD\Persistence\WorkspaceFake;
 use PHPUnit\Framework\TestCase;
 
@@ -60,7 +61,8 @@ class OrderRepositoryTest extends TestCase
         $this->fakeAnOrder(21, $customer);
         $this->fakeAnOrder(1, $this->fakeACustomer(2));
 
-        $this->assertEquals(3, count($this->repository->getOrders($customer)));
+
+        $this->assertEquals(3, count($this->repository->getOrdersByCustomer($customer)));
     }
 
     private function fakeACustomer($customerNumber)

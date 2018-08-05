@@ -42,6 +42,29 @@ class WorkspaceFake implements Workspace {
         return isset($this->markedForPersistence[$id]) ? $this->markedForPersistence[$id] :
             (isset(self::$persistent[$this->type][$id]) ? self::$persistent[$this->type][$id] : null);
     }
+
+    public function getByQuery($query)
+    {
+        $result = [];
+        foreach ($this->markedForPersistence as $item) {
+            $matches = true;
+            foreach ($query->getCriteria() as $criterion) {
+                $actual = $item;
+                foreach ($criterion->getGetterFields() as $getterField) {
+                    $getterMethod = "get{$getterField}";
+                    $actual = $actual->$getterMethod();
+                }
+                if ($actual != $criterion->getExpected()) {
+                    $matches = false;
+                    break;
+                }
+            }
+            if ($matches) {
+                $result[] = $item;
+            }
+        }
+        return $result;
+    }
 }
 //    public function persistAll()
 //    {

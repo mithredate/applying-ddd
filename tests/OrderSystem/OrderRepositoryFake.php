@@ -8,6 +8,8 @@
 namespace Mithredate\DDD\OrderSystem;
 
 
+use Mithredate\DDD\Infrastructure\Query;
+
 class OrderRepositoryFake implements OrderRepository
 {
     private $orders;
@@ -33,25 +35,18 @@ class OrderRepositoryFake implements OrderRepository
 
     public function add($order)
     {
-        $numberOfOrdersBefore = count($this->orders);
-
-        $this->orders[$order->getOrderNumber()] = $order;
-
         $this->ws->markForPersistence($order);
+    }
 
-        assert($numberOfOrdersBefore + 1 === count($this->orders));
+    public function getOrdersByCustomer($customer)
+    {
+        $query = new Query(Order::class);
+        $query->addCriteria("CustomerSnapshot.CustomerNumber", $customer->getCustomerNumber());
+        return $this->ws->getByQuery($query);
     }
 
     public function getOrders($customer)
     {
-        $orders = [];
-
-        foreach ($this->orders as $order) {
-            if($order->getCustomerNumber() == $customer->getCustomerNumber()) {
-                $orders[] = $order;
-            }
-        }
-
-        return $orders;
+        // TODO: Implement getOrders() method.
     }
 }

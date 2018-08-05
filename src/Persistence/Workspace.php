@@ -14,6 +14,8 @@ interface Workspace
 
     public function getById($type, $id);
 
+    public function getByQuery($query);
+
 //    public function getByParent($type, $parent, $parentId);
 
 //    public function persistAll();
