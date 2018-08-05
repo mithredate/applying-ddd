@@ -10,7 +10,7 @@ namespace Mithredate\DDD\OrderSystem;
 
 use Mithredate\DDD\Infrastructure\Query;
 
-class OrderRepositoryFake implements OrderRepository
+class OrderRepository
 {
     private $orders;
     private $ws;
@@ -43,10 +43,5 @@ class OrderRepositoryFake implements OrderRepository
         $query = new Query(Order::class);
         $query->addCriteria("CustomerSnapshot.CustomerNumber", $customer->getCustomerNumber());
         return $this->ws->getByQuery($query);
-    }
-
-    public function getOrders($customer)
-    {
-        // TODO: Implement getOrders() method.
     }
 }

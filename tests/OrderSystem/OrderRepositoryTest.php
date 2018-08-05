@@ -25,7 +25,7 @@ class OrderRepositoryTest extends TestCase
     protected function setUp()
     {
         $this->ws = new WorkspaceFake(Order::class, "getOrderNumber");
-        $this->repository = new OrderRepositoryFake($this->ws);
+        $this->repository = new OrderRepository($this->ws);
         $this->repositoryHelper = new RepositoryHelper();
     }
 
@@ -103,7 +103,7 @@ class OrderRepositoryTest extends TestCase
                ->withArgs([Order::class, 10])
                 ->andReturn($order);
 
-        $repository = new OrderRepositoryFake($wsMock);
+        $repository = new OrderRepository($wsMock);
         $fetchedOrder = $repository->getOrder(10);
         $this->assertEquals($order, $fetchedOrder);
     }
@@ -111,13 +111,13 @@ class OrderRepositoryTest extends TestCase
     public function testTowRepositoryInstancesKnowTheSameOrder()
     {
         self::markTestSkipped();
-        $repository1 = new OrderRepositoryFake($this->ws);
+        $repository1 = new OrderRepository($this->ws);
         $order = new RealOrder($this->fakeACustomer(2));
         $repository1->add($order);
 
         $this->ws->persistAll();
 
-        $repository2 = new OrderRepositoryFake($this->ws);
+        $repository2 = new OrderRepository($this->ws);
         $retrievedOrder = $repository2->getOrder(37);
 
         $this->assertNotNull($retrievedOrder->getOrderNumber());
