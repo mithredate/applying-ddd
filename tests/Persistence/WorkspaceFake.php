@@ -21,6 +21,9 @@ class WorkspaceFake implements Workspace {
     {
         $this->idGetter = $idGetter;
         $this->type = $type;
+        if (!isset(self::$persistent[$this->type])) {
+            self::$persistent[$this->type] = [];
+        }
     }
 
     public function markForPersistence($entity)
@@ -65,16 +68,13 @@ class WorkspaceFake implements Workspace {
         }
         return $result;
     }
+
+    public function persistAll()
+    {
+        foreach ($this->markedForPersistence as $id => $entity) {
+            self::$persistent[$this->type][$id] = $entity;
+        }
+        $this->markedForPersistence = [];
+    }
 }
-//    public function persistAll()
-//    {
-//        foreach ($this->dirty as $type => $entities) {
-//            if (!isset($this->persistent[$type])) {
-//                $this->persistent[$type] = [];
-//            }
-//            foreach ($entities as $entity) {
-//                $this->persistent[$type][] = $entity;
-//            }
-//        }
-//        $this->dirty = [];
-//    }
+

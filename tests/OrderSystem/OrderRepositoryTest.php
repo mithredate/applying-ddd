@@ -110,9 +110,8 @@ class OrderRepositoryTest extends TestCase
 
     public function testTowRepositoryInstancesKnowTheSameOrder()
     {
-        self::markTestSkipped();
         $repository1 = new OrderRepository($this->ws);
-        $order = new RealOrder($this->fakeACustomer(2));
+        $order = $this->repositoryHelper->fakeAnOrder(37, new Customer());
         $repository1->add($order);
 
         $this->ws->persistAll();
