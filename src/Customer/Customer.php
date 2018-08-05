@@ -8,6 +8,8 @@
 namespace Mithredate\DDD\Customer;
 
 
+use Mithredate\DDD\OrderSystem\ReadyToInvoiceSpecification;
+
 class Customer
 {
     const NEW = 0;
@@ -16,6 +18,7 @@ class Customer
     private $name;
     private $maxAmountOfDebt;
     private $status;
+    private $orderRepository;
 
     /**
      * Customer constructor.
@@ -68,5 +71,25 @@ class Customer
     public function isAccepted()
     {
         return $this->status === self::ACCEPTED;
+    }
+
+    public function getOrdersToInvoice(ReadyToInvoiceSpecification $specification)
+    {
+        $orders = $this->orderRepository->getOrdersByCustomer($this);
+        $result = [];
+        foreach ($orders as $order) {
+            if ($specification->test($order)) {
+                $result[] = $order;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @param mixed $orderRepository
+     */
+    public function setOrderRepository($orderRepository)
+    {
+        $this->orderRepository = $orderRepository;
     }
 }

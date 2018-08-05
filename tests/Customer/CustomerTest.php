@@ -8,13 +8,27 @@
 namespace Mithredate\DDD\Customer;
 
 
+use Mithredate\DDD\OrderSystem\Order;
+use Mithredate\DDD\OrderSystem\OrderRepository;
+use Mithredate\DDD\OrderSystem\ReadyToInvoiceSpecification;
+use Mithredate\DDD\OrderSystem\RealOrder;
+use Mithredate\DDD\Persistence\WorkspaceFake;
 use PHPUnit\Framework\TestCase;
 
 class CustomerTest extends TestCase
 {
 
-    public function testCustomerWithNewOrdersDontHaveReadyToInvoice()
+    public function testCustomerWithNewOrdersDoNotHaveReadyToInvoice()
     {
-        self::markTestSkipped();
+        $customer = new Customer();
+        $orderRepository = new OrderRepository(new WorkspaceFake(Order::class, 'getOrderNumber'));
+        $customer->setOrderRepository($orderRepository);
+
+        $order = new RealOrder($customer);
+        $orderRepository->add($order);
+
+        $specification = new ReadyToInvoiceSpecification();
+
+        $this->assertEquals(0, count($customer->getOrdersToInvoice($specification)));
     }
 }
