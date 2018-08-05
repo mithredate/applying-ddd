@@ -16,4 +16,15 @@ class OrderStatus
     const ACCEPTED = 2;
     const PERSISTED = 3;
     const ORDERED = 4;
+    private $statusNumber;
+
+    public function __construct($statusNumber)
+    {
+        $this->statusNumber = $statusNumber;
+    }
+
+    public function getStatusNumber()
+    {
+        return $this->statusNumber;
+    }
 }

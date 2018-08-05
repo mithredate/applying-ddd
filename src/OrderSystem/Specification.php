@@ -5,7 +5,7 @@
  * Date: Aug, 2018
  */
 
-namespace OrderSystem;
+namespace Mithredate\DDD\OrderSystem;
 
 
 interface Specification

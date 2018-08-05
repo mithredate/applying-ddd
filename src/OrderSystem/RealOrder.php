@@ -13,7 +13,6 @@ use Mithredate\DDD\Misc\ApplicationException;
 use Mithredate\DDD\Rules\BrokenRuleCollector;
 use Mithredate\DDD\Rules\DateIsInRangeRule;
 use Mithredate\DDD\Rules\MaxStringLengthRule;
-use Mithredate\DDD\Rules\RuleBase;
 
 class RealOrder implements Order
 {
@@ -21,21 +20,23 @@ class RealOrder implements Order
     private $orderDate;
     private $orderNumber;
     private $orderLines;
-    private $status;
+    private $statusNumber;
     private $note;
     private $customer;
     private $persistenceRelatedRules;
     private $acceptedSpecificRules;
+    private $status;
 
     public function __construct($customer) {
         $this->customerSnapshot = $customer->takeSnapshot();
         $this->orderDate = new DateTime('now');
         $this->orderNumber = 0;
         $this->orderLines = [];
-        $this->status = OrderStatus::NEW;
+        $this->statusNumber = OrderStatus::NEW;
         $this->customer = $customer;
         $this->setupPersistenceRelatedRules();
         $this->setupAcceptedSpecificRules();
+        $this->status = new OrderStatus($this->statusNumber);
     }
 
     private function setupPersistenceRelatedRules()
@@ -110,12 +111,12 @@ class RealOrder implements Order
         if ($this->getTotalAmount() > $this->getCustomerMaxAmountOfDebt()) {
             throw new ApplicationException("Customer reached its maximum debt amount!");
         }
-        $this->status = OrderStatus::ORDERED;
+        $this->statusNumber = OrderStatus::ORDERED;
     }
 
     public function getStatus()
     {
-        return $this->status;
+        return $this->statusNumber;
     }
 
     private function guardOrderAmountLimit(): void
@@ -164,9 +165,14 @@ class RealOrder implements Order
         return $brokenRules;
     }
 
+    public function getPersistenceRelatedRules()
+    {
+        return $this->persistenceRelatedRules;
+    }
+
     private function isInThisStateOrBeyond(int $status)
     {
-        return $this->status > $status;
+        return $this->statusNumber > $status;
     }
 
     public function accept()
@@ -175,11 +181,12 @@ class RealOrder implements Order
             throw new ApplicationException("Can't accept an invalid order.");
         }
 
-        $this->status = OrderStatus::ACCEPTED;
+        $this->setStatus(OrderStatus::ACCEPTED);
     }
 
-    public function getPersistenceRelatedRules()
+    private function setStatus(int $statusNumber)
     {
-        return $this->persistenceRelatedRules;
+        $this->statusNumber = $statusNumber;
+        $this->status = new OrderStatus($statusNumber);
     }
 }

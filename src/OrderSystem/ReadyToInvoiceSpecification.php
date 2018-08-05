@@ -8,13 +8,13 @@
 namespace Mithredate\DDD\OrderSystem;
 
 
-use OrderSystem\Specification;
-
 class ReadyToInvoiceSpecification implements Specification
 {
 
     public function test($order)
     {
-
+        if (!$order->isInThisStateOrBeyond(OrderStatus::ACCEPTED)) {
+            return false;
+        }
     }
 }
