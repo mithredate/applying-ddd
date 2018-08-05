@@ -13,9 +13,8 @@ use PHPUnit\Framework\TestCase;
 
 class ReadyToInvoiceSpecificationTest extends TestCase
 {
-    public function testNewOrderShouldNotPassTheSpecificationTest()
+    public function testNewOrderCanNotBeInvoiced()
     {
-        self::markTestSkipped();
         $specification = new ReadyToInvoiceSpecification();
 
         $order = new RealOrder(new Customer());

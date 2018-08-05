@@ -168,9 +168,9 @@ class RealOrder implements Order
         return $this->persistenceRelatedRules;
     }
 
-    private function isInThisStateOrBeyond(int $status)
+    public function isInThisStateOrBeyond($statusNumber)
     {
-        return $this->status->isInThisStateOrBeyond($status);
+        return $this->status->isInThisStateOrBeyond($statusNumber);
     }
 
     public function accept()

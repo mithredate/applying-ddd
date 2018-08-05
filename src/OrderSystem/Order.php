@@ -29,4 +29,6 @@ interface Order extends ValidatableRegardingPersistence
     public function addOrderLine($orderLine);
 
     public function accept();
+
+    public function isInThisStateOrBeyond($statusNumberNumber);
 }

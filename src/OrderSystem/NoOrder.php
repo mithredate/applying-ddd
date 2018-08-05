@@ -68,4 +68,9 @@ class NoOrder implements Order
     {
         return null;
     }
+
+    public function isInThisStateOrBeyond($statusNumberNumber)
+    {
+        return false;
+    }
 }
